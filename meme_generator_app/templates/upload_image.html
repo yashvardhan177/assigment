@@ -1,0 +1,22 @@
+<!-- meme_generator_app/templates/upload_image.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meme Generator</title>
+</head>
+<body>
+    <h1>Meme Generator</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" required><br>
+        <input type="text" name="caption1" placeholder="Caption 1" required><br>
+        <input type="text" name="caption2" placeholder="Caption 2"><br>
+        <input type="text" name="caption3" placeholder="Caption 3"><br>
+        <input type="color" name="font_color1" value="#000000">
+        <input type="color" name="background_color1" value="#ffffff"><br>
+        <!-- Add more fields for caption2 and caption3 colors and positions -->
+        <input type="submit" value="Generate Meme">
+    </form>
+</body>
+</html>

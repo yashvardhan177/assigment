@@ -1,0 +1,101 @@
+<!-- meme_generator_app/templates/show_meme.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Meme</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .generated-meme {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .generated-meme img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .back-button {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .back-button a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generated Meme</h1>
+        <div class="generated-meme">
+            {% if meme_image.generated_meme %}
+            <img src="{{ meme_image.generated_meme.url }}" alt="Generated Meme">
+            {% endif %}
+
+        </div>
+         <div class="download-link">
+            <a href="{{ meme_image.generated_meme.url }}" download="generated_meme.jpg">
+                <button>Download Meme</button>
+            </a>
+        </div>
+<!--         <div>-->
+<!--            <a href="{% url 'share_on_twitter' meme_image.pk %}">-->
+<!--                <button>Share on Twitter</button>-->
+<!--            </a>-->
+<!--        </div>-->
+
+        <div id="loading" style="display: none;">
+            <img src="{% static 'loading_spinner.gif' %}" alt="Loading..." width="40" height="40">
+            <p>Sharing on Twitter...</p>
+        </div>
+        <button onclick="shareOnTwitter()">Share on Twitter</button>
+
+        <div class="back-button">
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function shareOnTwitter() {
+        document.getElementById('loading').style.display = 'block';  // Show the loading spinner
+
+        // Send a request to the server to share the meme on Twitter
+        const memeId = "{{ meme_image.id }}";
+        fetch(`/share_on_twitter/${memeId}/`, {method: 'POST'})
+        .then(response => {
+            if (response.ok) {
+                document.getElementById('loading').style.display = 'none';  // Hide the loading spinner
+                alert('Meme shared on Twitter successfully!');
+            } else {
+                throw new Error('Error sharing on Twitter');
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';  // Hide the loading spinner
+            console.error(error);
+            alert('Error sharing on Twitter. Please try again later.');
+        });
+    }
+</script>

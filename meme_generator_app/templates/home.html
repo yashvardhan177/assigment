@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meme Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Your CSS styles here */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="color"],
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f8f8f8;
+            outline: none;
+        }
+
+        .position-field {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .position-field label {
+            margin-bottom: 0;
+        }
+
+        .file-upload {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .file-upload span {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 3px;
+        }
+
+        .file-name {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .generate-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .generate-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .generated-meme {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .generated-meme img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .crop-resize-fields {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .crop-resize-fields label {
+            margin-bottom: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Meme Generator</h1>
+       <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="caption1">Caption 1:</label>
+    <input type="text" name="caption1" placeholder="Enter Caption 1" required>
+    <div class="position-field">
+        <label for="font_color1">Font Color:</label>
+        <input type="color" name="font_color1" value="#000000">
+        <label for="background_color1">Background Color:</label>
+        <input type="color" name="background_color1" value="#ffffff">
+        <label for="caption1_position">Position:</label>
+        <select name="caption1_position" required>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="center">Center</option>
+        </select>
+    </div>
+
+    <label for="caption2">Caption 2:</label>
+    <input type="text" name="caption2" placeholder="Enter Caption 2">
+    <div class="position-field">
+        <label for="font_color2">Font Color:</label>
+        <input type="color" name="font_color2" value="#000000">
+        <label for="background_color2">Background Color:</label>
+        <input type="color" name="background_color2" value="#ffffff">
+        <label for="caption2_position">Position:</label>
+        <select name="caption2_position" required>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="center">Center</option>
+        </select>
+    </div>
+
+    <label for="caption3">Caption 3:</label>
+    <input type="text" name="caption3" placeholder="Enter Caption 3">
+    <div class="position-field">
+        <label for="font_color3">Font Color:</label>
+        <input type="color" name="font_color3" value="#000000">
+        <label for="background_color3">Background Color:</label>
+        <input type="color" name="background_color3" value="#ffffff">
+        <label for="caption3_position">Position:</label>
+        <select name="caption3_position" required>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="center">Center</option>
+        </select>
+    </div>
+
+    <div class="file-upload">
+        <label for="image">
+            <span> Upload </span>
+        </label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <div class="file-name" id="file-name">No file chosen</div>
+    </div>
+
+<!--              <div class="crop-resize-fields">-->
+<!--                <label for="crop_image">Crop Image:</label>-->
+<!--                <input type="checkbox" name="crop_image">-->
+
+<!--                <label for="resize_image">Resize Image:</label>-->
+<!--                <input type="checkbox" name="resize_image">-->
+<!--            </div>-->
+
+<!--            <div id="crop-fields" style="display: none;">-->
+<!--                <label for="crop_left">Crop Left:</label>-->
+<!--                <input type="number" name="crop_left" min="0">-->
+<!--                <label for="crop_top">Crop Top:</label>-->
+<!--                <input type="number" name="crop_top" min="0">-->
+<!--                <label for="crop_right">Crop Right:</label>-->
+<!--                <input type="number" name="crop_right" min="0">-->
+<!--                <label for="crop_bottom">Crop Bottom:</label>-->
+<!--                <input type="number" name="crop_bottom" min="0">-->
+<!--            </div>-->
+
+<!--            <div id="resize-fields" style="display: none;">-->
+<!--                <label for="new_width">New Width:</label>-->
+<!--                <input type="number" name="new_width" min="1">-->
+<!--                <label for="new_height">New Height:</label>-->
+<!--                <input type="number" name="new_height" min="1">-->
+<!--            </div>-->
+
+            <button class="generate-btn" type="submit">Generate Meme</button>
+        </form>
+
+        {% if meme_image %}
+            <div class="generated-meme">
+                <h2>Generated Meme</h2>
+                <img src="{{ meme_image.image.url }}" alt="Generated Meme">
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('image');
+        const fileName = document.getElementById('file-name');
+
+        fileInput.addEventListener('change', () => {
+            fileName.textContent = fileInput.files[0].name;
+        });
+    </script>
+</body>
+</html>
